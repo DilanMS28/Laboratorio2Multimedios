@@ -10,10 +10,38 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
+import app from "../AccesoFirebase";
+import { useState } from "react";
+
+
+const db = getFirestore(app);
 
 export default function CrearCuenta() {
 
     const Navigation = useNavigation()
+
+    const inicioEstado = {
+        nombre: "",
+        codigo: "",
+        cantidad: "",
+        fecha: "",
+      };
+    
+      const [estado, setEstado] = useState(inicioEstado);
+    
+      const hadleChangeText = (value, name) => {
+        setEstado({ ...estado, [name]: value });
+      };
+    
+      const Registrar = async () => {
+        try {
+          await addDoc(collection(db, "Product"), { ...estado });
+          alert("Usuario registrado con exito");
+        } catch (error) {
+          console.log(error);
+        }
+      };
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -34,26 +62,41 @@ export default function CrearCuenta() {
 
       <View style={styles.tarjeta}>
         <Text style={styles.titulo}>Productos</Text>
-        <TextInput style={styles.txtInput} placeholder="Nombre Producto" />
+        <TextInput style={styles.txtInput} placeholder="Nombre Producto" value={estado.nombre}
+          onChangeText={(value) => {
+            hadleChangeText(value, "nombre");
+          }} />
         <TextInput
           style={styles.txtInput}
           placeholder="Código Producto"
           keyboardType="email-address"
+          value={estado.codigo}
+          onChangeText={(value) => {
+            hadleChangeText(value, "codigo");
+          }}
         />
         <TextInput
           style={styles.txtInput}
           placeholder="Cantidad"
           keyboardType="numeric"
         //   secureTextEntry={true}
+        value={estado.cantidad}
+          onChangeText={(value) => {
+            hadleChangeText(value, "cantidad");
+          }}
         />
         <TextInput
           style={styles.txtInput}
           placeholder="Fecha Caducidad"
           keyboardType="ascii-capable"
         //   secureTextEntry={true}
+        value={estado.fecha}
+          onChangeText={(value) => {
+            hadleChangeText(value, "fecha");
+          }}
         />
         
-        <TouchableOpacity onPress={()=>{Navigation.navigate("home")}}>
+        <TouchableOpacity onPress={Registrar}>
           <Text style={styles.btnLoginText}>Guardar</Text>
         </TouchableOpacity>
       </View>

@@ -10,10 +10,40 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { useSafeAreaFrame } from "react-native-safe-area-context";
+import { useState } from "react";
+import { addDoc, collection, getFirestore } from "firebase/firestore";
+import app from "../AccesoFirebase";
+
+
+const db = getFirestore(app);
 
 export default function CrearCuenta() {
+  const Navigation = useNavigation();
+  
 
-    const Navigation = useNavigation()
+  const inicioEstado = {
+    nombre: "",
+    email: "",
+    clave: "",
+    confirmacion: "",
+  };
+
+  const [estado, setEstado] = useState(inicioEstado);
+
+  const hadleChangeText = (value, name) => {
+    setEstado({ ...estado, [name]: value });
+  };
+
+  const Registrar = async () => {
+    try {
+      await addDoc(collection(db, "User"), { ...estado });
+      alert("Usuario registrado con exito");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -34,29 +64,47 @@ export default function CrearCuenta() {
 
       <View style={styles.tarjeta}>
         <Text style={styles.titulo}>Crear Cuenta Nueva</Text>
-        <TextInput style={styles.txtInput} placeholder="Nombre Completo" />
+        <TextInput
+          style={styles.txtInput}
+          placeholder="Nombre Completo"
+          value={estado.nombre}
+          onChangeText={(value) => {
+            hadleChangeText(value, "nombre");
+          }}
+        />
         <TextInput
           style={styles.txtInput}
           placeholder="Correo electrónico"
           keyboardType="email-address"
+          value={estado.email}
+          onChangeText={(value) => {
+            hadleChangeText(value, "email");
+          }}
         />
         <TextInput
           style={styles.txtInput}
           placeholder="contraseña"
           // keyboardType="visible-password"
           secureTextEntry={true}
+          value={estado.clave}
+          onChangeText={(value) => {
+            hadleChangeText(value, "clave");
+          }}
         />
         <TextInput
           style={styles.txtInput}
           placeholder="Comprobar contraseña"
           // keyboardType="visible-password"
           secureTextEntry={true}
+          value={estado.confirmacion}
+          onChangeText={(value) => {
+            hadleChangeText(value, "confirmacion");
+          }}
         />
-        <TouchableOpacity onPress={()=>{Navigation.navigate("home")}}>
+        <TouchableOpacity onPress={Registrar}>
           <Text style={styles.btnLoginText}>Ingresar</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 }
