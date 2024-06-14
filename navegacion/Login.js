@@ -18,6 +18,8 @@ export default function Login() {
         source={require("../assets/img_fondo.jpg")}
         style={styles.Background}
       >
+        <View style={{backgroundColor:"rgba(0,0,0,0.75)"}}>
+        
         <Image source={require("../assets/logo_fruit-sf.png")} style={{margin: 20}}/>
 
         <TextInput style={styles.txtInput} placeholder="correo electronico" keyboardType="email-address" />
@@ -40,6 +42,7 @@ export default function Login() {
         </TouchableOpacity>
 
         <Text style={styles.txtRegistrarse}>¿Has olvidado tu contraseña?</Text>
+        </View>
       </ImageBackground>
     </View>
   );
@@ -52,6 +55,7 @@ const styles = StyleSheet.create({
   Background: {
     flex: 1,
     resizeMode: "cover",
+    color: "rgba(0,0,0,0.75)"
   },
   txtInput:{
     backgroundColor: "#fff",
