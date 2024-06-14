@@ -11,9 +11,10 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 
-export default function CrearCuenta() {
+export default function Home() {
 
     const Navigation = useNavigation()
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -33,27 +34,16 @@ export default function CrearCuenta() {
       </ImageBackground>
 
       <View style={styles.tarjeta}>
-        <Text style={styles.titulo}>Crear Cuenta Nueva</Text>
-        <TextInput style={styles.txtInput} placeholder="Nombre Completo" />
-        <TextInput
-          style={styles.txtInput}
-          placeholder="Correo electrónico"
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.txtInput}
-          placeholder="contraseña"
-          // keyboardType="visible-password"
-          secureTextEntry={true}
-        />
-        <TextInput
-          style={styles.txtInput}
-          placeholder="Comprobar contraseña"
-          // keyboardType="visible-password"
-          secureTextEntry={true}
-        />
-        <TouchableOpacity onPress={()=>{Navigation.navigate("home")}}>
-          <Text style={styles.btnLoginText}>Ingresar</Text>
+        <Text style={styles.titulo}>Inicio</Text>
+        
+        <TouchableOpacity onPress={()=>{Navigation.navigate("crear")}}>
+          <Text style={styles.btnLoginText}>Crear Cuenta</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>{Navigation.navigate("producto")}}>
+          <Text style={styles.btnLoginText}>Ingresar Producto</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>{Navigation.navigate("login")}}>
+          <Text style={styles.btnLoginText}>Cerrar Sesion</Text>
         </TouchableOpacity>
       </View>
 

@@ -18,21 +18,21 @@ export default function Login() {
         source={require("../assets/img_fondo.jpg")}
         style={styles.Background}
       >
-        <Image source={require("../assets/logo_fruit.png")} style={{margin: 20}}/>
+        <Image source={require("../assets/logo_fruit-sf.png")} style={{margin: 20}}/>
 
-        <TextInput style={styles.txtInput} placeholder="correo electronico" />
+        <TextInput style={styles.txtInput} placeholder="correo electronico" keyboardType="email-address" />
         <TextInput
           style={styles.txtInput}
           placeholder="contraseña"
-          keyboardType="visible-password"
+        //   keyboardType="visible-password"
           secureTextEntry={true}
         />
 
-        <TouchableOpacity onPress={()=>{Navegation.navigate("crear")}}>
+        <TouchableOpacity onPress={()=>{Navegation.navigate("home")}}>
           <Text style={styles.btnLoginText}>Ingresar</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>{Navegation.navigate("crear")}}>
           <Text style={styles.txtCrearCuenta}>
             Crear cuenta nueva.{" "}
             <Text style={styles.txtRegistrarse}>Registrate</Text>
@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
   },
   txtInput:{
-    backgroundColor: "#D9D9D9",
+    backgroundColor: "#fff",
     marginRight: "auto",
     marginLeft: "auto",
     width: "95%",
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     paddingRight: 20,
-    marginBottom: 10,
+    marginBottom: 20,
   },
   txtCrearCuenta:{
     color: "#fff",
