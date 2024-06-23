@@ -42,6 +42,12 @@ export default function Home() {
         <TouchableOpacity onPress={()=>{Navigation.navigate("producto")}}>
           <Text style={styles.btnLoginText}>Ingresar Producto</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={()=>{Navigation.navigate("listar")}}>
+          <Text style={styles.btnLoginText}>Listar Producto</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={()=>{Navigation.navigate("aprender")}}>
+          <Text style={styles.btnLoginText}>Aprender+</Text>
+        </TouchableOpacity>
         <TouchableOpacity onPress={()=>{Navigation.navigate("login")}}>
           <Text style={styles.btnLoginText}>Cerrar Sesion</Text>
         </TouchableOpacity>

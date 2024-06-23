@@ -17,7 +17,7 @@ import { useState } from "react";
 
 const db = getFirestore(app);
 
-export default function CrearCuenta() {
+export default function Producto() {
 
     const Navigation = useNavigation()
 
@@ -37,7 +37,9 @@ export default function CrearCuenta() {
       const Registrar = async () => {
         try {
           await addDoc(collection(db, "Product"), { ...estado });
-          alert("Usuario registrado con exito");
+          alert("Producto Registrado Correctamente");
+          Navigation.navigate("listar")
+          // setEstado(estado.nombre="")
         } catch (error) {
           console.log(error);
         }
@@ -62,6 +64,7 @@ export default function CrearCuenta() {
 
       <View style={styles.tarjeta}>
         <Text style={styles.titulo}>Productos</Text>
+
         <TextInput style={styles.txtInput} placeholder="Nombre Producto" value={estado.nombre}
           onChangeText={(value) => {
             hadleChangeText(value, "nombre");
