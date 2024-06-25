@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+import React from "react";
 import {
   Image,
   StyleSheet,
@@ -9,7 +10,7 @@ import {
   ImageBackground,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import { useSafeAreaFrame } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 import {
@@ -18,47 +19,50 @@ import {
   getDocs,
   getFirestore,
   getDoc,
-  doc,
   deleteDoc,
+  doc
 } from "firebase/firestore";
 import app from "../AccesoFirebase";
 import { ScrollView } from "react-native-gesture-handler";
+import { ActivityIndicator } from "react-native-paper";
 
 const db = getFirestore(app);
 
-export default function ActualizarProducto(props) {
+export default function ListarFavoritos(props) {
   const Navigation = useNavigation();
-  const [producto, setProducto] = useState([]);
+  const [listar, setListar] = useState([]);
+  const [isLoading, setLoading] = useState(true);
 
-
-  // const getProducto = async (id) => {
-  //   try {
-  //     const ref = doc(db, "Product", id);
-  //     const datos = await getDoc(ref);
-  //     setProducto(datos.data());
-  //   //   console.log(datos)
-  //     console.log(producto)
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getProducto(props.route.params.productoId);
-  // }, []);
-
-  const actualizarProducto = async (id, nuevosDatos) => {
+  // useEffect( ()=>{
+  const getListar = async () => {
     try {
-      const productoRef = doc(db, 'Product', id);
-      await updateDoc(productoRef, nuevosDatos);
-      alert('Producto Actualizado Exitosamente');
-      Navigation.navigate('listar');
+      const qyCollection = await getDocs(collection(db, "Favoritos"));
+      // console.log(qyCollection)
+      const favoritos = [];
+      qyCollection.forEach((fruta) => {
+        favoritos.push({ ident: fruta.id, ...fruta.data() });
+      });
+      setLoading(false);
+      setListar(favoritos);
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   };
+  // getListar()
+  // },[])
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoading(true);
+      getListar();
+    }, [])
+  );
 
+  const eliminarProducto = async (id) => {
+    await deleteDoc(doc(db, "Favoritos", id));
+    alert("Producto Eliminado Exitosamente");
+    getListar()
+  };
 
   return (
     <View style={styles.container}>
@@ -79,21 +83,24 @@ export default function ActualizarProducto(props) {
           />
         </ImageBackground>
 
-        <Text style={styles.titulo}>Actualizar Producto</Text>
+        <Text style={styles.titulo}>Lista de Favoritos</Text>
 
-        <Text style={styles.titulo}>{producto.nombre}</Text>
-
-        <TextInput style={styles.txtInput} placeholder="Nombre" keyboardType="ascii-capable" value={producto.nombre} onChangeText={producto.nombre}/>
-        <TextInput style={styles.txtInput} placeholder="Código" keyboardType="ascii-capable" value={producto.codigo} onChangeText={producto.codigo}/>
-        <TextInput style={styles.txtInput} placeholder="Cantidad" keyboardType="ascii-capable" value={producto.cantidad} onChangeText={producto.cantidad} />
-        <TextInput style={styles.txtInput} placeholder="Fecha Caducidad" keyboardType="ascii-capable" value={producto.fecha} onChangeText={producto.fecha}/>
-
-        <TouchableOpacity>
-          <Text style={styles.btnLoginText}>Actualizar</Text>
-        </TouchableOpacity>
-
-
-    
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          listar.map((lista) => (
+            <View style={styles.tarjeta}>
+              <Text style={styles.txtProducto}>Nombre: {lista.name}</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  eliminarProducto(lista.ident);
+                }}
+              >
+                <Text style={styles.txtEliminar}>Eliminar</Text>
+              </TouchableOpacity>
+            </View>
+          ))
+        )}
       </ScrollView>
     </View>
   );
@@ -114,6 +121,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(0,0,0,0.15)",
   },
+  txtEliminar:{
+    color:"#c00000",
+    textAlign: "center",
+    fontSize:20,
+    marginRight: "auto",
+    marginLeft: "auto",
+    fontWeight: "normal",
+    backgroundColor: "white",
+    padding:10,
+    borderRadius: 15,
+  },
   titulo: {
     Color: "#000",
     fontWeight: "bold",
@@ -131,7 +149,7 @@ const styles = StyleSheet.create({
     resizeMode: "center",
   },
   txtInput: {
-    backgroundColor: "#fff",
+    backgroundColor: "#000",
     marginRight: "auto",
     marginLeft: "auto",
     width: "95%",
@@ -177,21 +195,5 @@ const styles = StyleSheet.create({
     marginBottom: 5,
     fontWeight: "normal",
     fontSize: 18,
-  },
-  txtEliminar:{
-    color:"#c00000",
-    fontSize:20,
-    fontWeight: "bold",
-    backgroundColor: "white",
-    padding:10,
-    borderRadius: 15,
-  },
-  txtEditar:{
-    color:"#8db600",
-    fontSize:20,
-    fontWeight: "bold",
-    backgroundColor: "white",
-    padding:10,
-    borderRadius: 15,
   },
 });

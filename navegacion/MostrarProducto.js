@@ -62,17 +62,6 @@ export default function MostrarProducto(props) {
     Navigation.navigate("listar")
   }
 
-  // const actualizarProducto = async (id, nuevosDatos) => {
-  //   try {
-  //     const productoRef = doc(db, 'Product', id);
-  //     await updateDoc(productoRef, nuevosDatos);
-  //     alert('Producto Actualizado Exitosamente');
-  //     Navigation.navigate('listar');
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   return (
     <View style={styles.container}>
       <ScrollView>

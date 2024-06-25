@@ -13,6 +13,7 @@ import ListarProducto from "./navegacion/ListarProductos";
 import Aprender from "./navegacion/AprenderApi";
 import MostrarProducto from "./navegacion/MostrarProducto";
 import ActualizarProducto from "./navegacion/ActualizarProducto";
+import ListarFavoritos from "./navegacion/ListarFavoritos";
 
 const StackNav = createStackNavigator();
 
@@ -27,6 +28,7 @@ function Stacks(){
         <StackNav.Screen name="aprender" component={Aprender}/>
         <StackNav.Screen name="mostrarProducto" component={MostrarProducto}/>
         <StackNav.Screen name="actualizarProducto" component={ActualizarProducto}/>
+        <StackNav.Screen name="listarFavoritos" component={ListarFavoritos}/>
     </StackNav.Navigator>
     )
 }
