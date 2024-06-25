@@ -111,7 +111,7 @@ export default function AprenderApi() {
         </TouchableOpacity>
       </View>
       <TouchableOpacity onPress={()=>Navigation.navigate("listarFavoritos")}>
-        <Text style={styles.btnLoginText}>Favoritos</Text>
+        <Text style={styles.btnLoginText}>Ver tus Favoritos</Text>
       </TouchableOpacity>
 
       <Text style={styles.titulo}>Productos</Text>
@@ -155,8 +155,8 @@ export default function AprenderApi() {
         )}
         {/* </View> */}
 
-        <TouchableOpacity onPress={() => Navigation.navigate("login")}>
-          <Text style={styles.btnLoginText}>Cerrar Sesión</Text>
+        <TouchableOpacity onPress={() => Navigation.navigate("home")}>
+          <Text style={styles.btnLoginText}>Inicio</Text>
         </TouchableOpacity>
       </View>
     </View>
